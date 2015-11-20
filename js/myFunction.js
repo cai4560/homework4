@@ -32,3 +32,30 @@ function getTimeStamp(timestamp) {
 	//getMonth()的返回值是0到11之间的一个整数...
 	return time.getUTCFullYear() + "-" + (time.getUTCMonth()+1) + "-" + time.getUTCDate();
 }
+
+function Search() {
+	$("#keyword").bind("input", function() {
+		var target = $(this).val();
+		if (target != null) {
+			filterAndHighlight(target);
+			} 
+		else{
+			Initiation();
+		}			
+	});
+}
+
+function filterAndHighlight(target) {
+	var filtering = new RegExp(target, "igm");	//全局匹配，大小写不敏感
+	var filter_result = bookmarks.filter(function(Para) {
+		return filtering.test(Para.title);
+	});			
+	var highlight_bookmarks = filter_result.map(function(Para) {
+	var highlight_title = Para.title.replace(
+	filtering, '<span style="background-color:#FFFF00;font-weight: 900;" >$&</span>');
+		return createBookmarks(highlight_title, Para.created);
+	});
+	$(".content").html(highlight_bookmarks);
+}
+
+

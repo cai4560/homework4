@@ -31,6 +31,11 @@ body {
 	font-family:"Times New Roman", Times, serif;
 }
 
+.content .heightlight{
+	background-color:#FFFF00;
+	font-weight: 900;
+}
+
 .title {
 	text-align: left;
 	position: relative;

@@ -3,12 +3,12 @@ var url = "bookmarks.json";
 
 //所有包括在$(document).ready()里面的元素或事件都将会在DOM完成加载之后立即加载
 $(document).ready(function() {
-	$.ajaxSettings.async = false;		//发送同步请求
+	//$.ajaxSettings.async = false;		//发送同步请求
 	$.getJSON(url, function(Para) {
 		bookmarks = Para;
+		Initiation();	//将操作放在json的异步交互方法中可以省略ajaxSettings，或者使用setTimeout延时
+		Search();
 	});
-	Initiation();
-	Search();
 });
 
 function Initiation() {
@@ -34,7 +34,7 @@ function getTimeStamp(timestamp) {
 }
 
 function Search() {
-	$("#keyword").bind("input", function() {
+	$(".search .keyword").bind("input", function() {
 		var target = $(this).val();
 		if (target != null) {
 			filterAndHighlight(target);
@@ -52,7 +52,7 @@ function filterAndHighlight(target) {
 	});			
 	var highlight_bookmarks = filter_result.map(function(Para) {
 	var highlight_title = Para.title.replace(
-	filtering, '<span style="background-color:#FFFF00;font-weight: 900;" >$&</span>');
+	filtering, '<span class="heightlight">$&</span>');	//$&：从模式匹配得到的字符串将用于替换
 		return createBookmarks(highlight_title, Para.created);
 	});
 	$(".content").html(highlight_bookmarks);
